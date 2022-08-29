@@ -1,4 +1,8 @@
-def evaluate(individual):
+import random
+from typing import Tuple, List
+
+
+def evaluate(individual: List[int]) -> int:
     """
     Recebe um indivíduo (lista de inteiros) e retorna o número de ataques
     entre rainhas na configuração especificada pelo indivíduo.
@@ -10,7 +14,7 @@ def evaluate(individual):
     raise NotImplementedError  # substituir pelo seu codigo
 
 
-def tournament(participants):
+def tournament(participants: List[List[int]]) -> List[int]:
     """
     Recebe uma lista com vários indivíduos e retorna o melhor deles, com relação
     ao numero de conflitos
@@ -20,7 +24,7 @@ def tournament(participants):
     raise NotImplementedError  # substituir pelo seu codigo
 
 
-def crossover(parent1, parent2, index):
+def crossover(parent1: List[int], parent2: List[int], index: int) -> Tuple[List[int], List[int]]:
     """
     Realiza o crossover de um ponto: recebe dois indivíduos e o ponto de
     cruzamento (indice) a partir do qual os genes serão trocados. Retorna os
@@ -37,19 +41,19 @@ def crossover(parent1, parent2, index):
     raise NotImplementedError  # substituir pelo seu codigo
 
 
-def mutate(individual, m):
+def mutate(individual: List[int], m: float) -> List[int]:
     """
     Recebe um indivíduo e a probabilidade de mutação (m).
     Caso random() < m, sorteia uma posição aleatória do indivíduo e
     coloca nela um número aleatório entre 1 e 8 (inclusive).
     :param individual:list
-    :param m:int - probabilidade de mutacao
+    :param m:float - probabilidade de mutacao
     :return:list - individuo apos mutacao (ou intacto, caso a prob. de mutacao nao seja satisfeita)
     """
     raise NotImplementedError  # substituir pelo seu codigo
 
 
-def run_ga(g, n, k, m, e):
+def run_ga(g: int, n: int, k: int, m: float, e: int) -> List[int]:
     """
     Executa o algoritmo genético e retorna o indivíduo com o menor número de ataques entre rainhas
     :param g:int - numero de gerações
