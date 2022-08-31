@@ -38,7 +38,12 @@ def crossover(parent1: List[int], parent2: List[int], index: int) -> Tuple[List[
     :param index:int
     :return:list,list
     """
-    raise NotImplementedError  # substituir pelo seu codigo
+
+    descendant1 = parent1[0:index] + parent2[index:]
+
+    descendant2 = parent2[0:index] + parent1[index:]
+
+    return descendant1, descendant2
 
 
 def mutate(individual: List[int], m: float) -> List[int]:
@@ -50,7 +55,13 @@ def mutate(individual: List[int], m: float) -> List[int]:
     :param m:float - probabilidade de mutacao
     :return:list - individuo apos mutacao (ou intacto, caso a prob. de mutacao nao seja satisfeita)
     """
-    raise NotImplementedError  # substituir pelo seu codigo
+    pos_ind = random.randint(0, 7)
+    mutation = random.randint(1, 8)
+
+    if random.random() < m:
+        individual[pos_ind] = mutation
+
+    return individual
 
 
 def run_ga(g: int, n: int, k: int, m: float, e: int) -> List[int]:
