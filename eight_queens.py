@@ -1,6 +1,8 @@
 import random
 from typing import Tuple, List
 
+PLOT_GRAPH = True
+
 
 def evaluate(individual: List[int]) -> int:
     """
@@ -11,7 +13,19 @@ def evaluate(individual: List[int]) -> int:
     :param individual:list
     :return:int numero de ataques entre rainhas no individuo recebido
     """
-    raise NotImplementedError  # substituir pelo seu codigo
+    hits = 0
+
+    for i in range(7):
+        queen_looking = individual[i]
+        for j in range(i + 1, 8):
+            queen_conflicting = individual[j]
+            if (
+                (queen_looking == queen_conflicting)
+                or (queen_looking == queen_conflicting + (j - i))
+                or (queen_looking == queen_conflicting - (j - i))
+            ):
+                hits += 1
+    return hits
 
 
 def tournament(participants: List[List[int]]) -> List[int]:
@@ -21,7 +35,11 @@ def tournament(participants: List[List[int]]) -> List[int]:
     :param participants:list - lista de individuos
     :return:list melhor individuo da lista recebida
     """
-    raise NotImplementedError  # substituir pelo seu codigo
+    participants_conflict_list = [evaluate(individual) for individual in participants]
+    min_conflict_value = min(participants_conflict_list)
+    min_conflict_index = participants_conflict_list.index(min_conflict_value)
+
+    return participants[min_conflict_index]
 
 
 def crossover(parent1: List[int], parent2: List[int], index: int) -> Tuple[List[int], List[int]]:
@@ -74,4 +92,28 @@ def run_ga(g: int, n: int, k: int, m: float, e: int) -> List[int]:
     :param e:int - número de indivíduos no elitismo
     :return:list - melhor individuo encontrado
     """
-    raise NotImplementedError  # substituir pelo seu codigo
+
+    curr_population = [[random.randint(1, 8) for i in range(8)] for individual in range(n)]
+    if PLOT_GRAPH == True:
+        populations = []
+    for generation in range(g):
+        if e > 0:
+            new_population = [tournament(curr_population)]
+        else:
+            new_population = []
+        while len(new_population) < n:
+            parent1 = tournament(random.sample(curr_population, k))
+            parent2 = tournament(random.sample(curr_population, k))
+
+            descendant1, descendant2 = crossover(parent1, parent2, random.randint(0, 7))
+            descendant1 = mutate(descendant1, m)
+            descendant2 = mutate(descendant2, m)
+            new_population.extend([descendant1, descendant2])
+
+        curr_population = new_population
+        if PLOT_GRAPH == True:
+            populations.append(curr_population)
+    if PLOT_GRAPH == True:
+        return tournament(curr_population), populations
+    else:
+        return tournament(curr_population)
