@@ -1,7 +1,7 @@
 import random
 from typing import Tuple, List
 
-PLOT_GRAPH = True
+PLOT_GRAPH = False
 
 
 def evaluate(individual: List[int]) -> int:

@@ -2,15 +2,12 @@ import eight_queens as eightqueen
 import numpy as np
 import matplotlib.pyplot as plt
 
-best_individual, populations = eightqueen.run_ga(100, 40, 2, 0.3, 1)
+best_individual, populations = eightqueen.run_ga(40, 30, 10, 0.4, 1)
 
-min_conflicts = []
-average_conflicts = []
-max_conflicts = []
+min_conflicts, average_conflicts, max_conflicts = [], [], []
 
 for individual in populations:
     conflicts = [eightqueen.evaluate(i) for i in individual]
-
     min_conflicts.append(np.amin(conflicts))
     max_conflicts.append(np.amax(conflicts))
     average_conflicts.append(np.mean(conflicts))
